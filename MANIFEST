@@ -1,0 +1,12 @@
+Changes
+MANIFEST
+Makefile.PL
+README
+lib/Test/XML/Simple.pm
+t/01load.t
+t/02import.t
+t/03valid.t
+t/04node.t
+t/05is.t
+t/06like.t
+t/07deeply.t
