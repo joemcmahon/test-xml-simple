@@ -1,5 +1,9 @@
 Revision history for Perl extension Test::XML::Simple.
 
+0.09  Tue Dec 20 17:20:44 PST 2005
+	- xml_like did not return a true value when it
+	  works properly.
+
 0.08  Tue Dec 20 16:04:14 PST 2005
 	- Make sure the backup error message for xml_like
 	  includes the user's supplied comment.

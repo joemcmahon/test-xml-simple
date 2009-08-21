@@ -3,7 +3,7 @@ package Test::XML::Simple;
 use strict;
 use warnings;
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 use Test::Builder;
 use Test::More;
@@ -156,18 +156,18 @@ sub _xml_like {
       foreach my $kid (@kids) {
         if ($kid->toString =~ /$regex/) {
           $found = 1;
-          $like_sub->($kid->toString, $regex, $comment);
+          return $like_sub->($kid->toString, $regex, $comment);
         }
       }
       if (! $found) {
         $comment = "(no comment)" unless defined $comment;
-        ok(0, "$comment - no match in tag contents (including CDATA)");
+       return ok(0, "$comment - no match in tag contents (including CDATA)");
       }
     }
     else {
       my $got =  $node->toString;
       $got =~ s/^.*="(.*)"/$1/;
-      $like_sub->(like $got, $regex, $comment);
+      return $like_sub->(like $got, $regex, $comment);
     }
   }
 }
