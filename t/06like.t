@@ -24,6 +24,7 @@ EOS
        ok=>1,
     }
  );
+ok($results[1]->{ok}, 'found node');
 
 @results = run_tests(
     sub {
@@ -33,6 +34,7 @@ EOS
        ok=>1,
     }
  );
+ok($results[1]->{ok}, 'found path');
 
 =begin skip_tests
 

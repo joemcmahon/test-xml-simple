@@ -1,5 +1,12 @@
 Revision history for Perl extension Test::XML::Simple.
 
+0.05  Mon Nov 28 14:41:58 2005
+	- Switched to XML::LibXML
+	- reordered Test::Tester to the top in all tests
+	- fixed test tests that had no result testing
+        - tests now fail with the appropriate message
+	  instead of diag'ing it
+
 0.04  Wed Sep 14 14:43:10 2005
 	- Fixed xml_is and xml_like to handle attributes better
 	  (//node[@attr] will now actually return the value of the

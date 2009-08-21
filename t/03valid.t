@@ -1,6 +1,6 @@
-use Test::More tests=>6;
-use Test::XML::Simple;
 use Test::Tester;
+use Test::More tests=>8;
+use Test::XML::Simple;
 
 my $totally_invalid = <<EOS;
 yarrgh there be no XML here
@@ -29,16 +29,27 @@ EOS
           xml_valid(undef, "no xml")
     }
   );
-is($results[1]->{diag}, undef, "1 skipped");
-ok(!$results[1]->{ok}, '2 failed as expected');
+is($results[1]->{diag}, '', "skipped");
+ok(!$results[1]->{ok}, 'failed as expected');
 
 @results = run_tests(
     sub {
           xml_valid($totally_invalid, "invalid xml")
     }
   );
-is($results[1]->{diag}, undef, "3 skipped");
-ok(!$results[1]->{ok}, '4 failed as expected');
+is($results[1]->{diag}, '', "skipped");
+ok(!$results[1]->{ok}, 'failed as expected');
+
+@results = run_tests(
+    sub {
+          xml_valid($broken_xml, "invalid xml")
+    },
+    {
+       ok=>undef
+    }
+  );
+is($results[1]->{diag}, '', "skipped");
+ok(!$results[1]->{ok}, 'failed as expected');
 
 @results = run_tests(
     sub {
@@ -49,11 +60,5 @@ ok(!$results[1]->{ok}, '4 failed as expected');
     }
   );
 
-@results = run_tests(
-    sub {
-          xml_valid($broken_xml, "invalid xml")
-    },
-    {
-       ok=>undef
-    }
-  );
+is($results[1]->{diag}, '', "ran");
+ok($results[1]->{ok}, 'succeeded as expected');

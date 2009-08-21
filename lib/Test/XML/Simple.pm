@@ -3,11 +3,11 @@ package Test::XML::Simple;
 use strict;
 use warnings;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 use Test::Builder;
 use Test::More;
-use XML::XPath;
+use XML::LibXML;
 
 my $Test = Test::Builder->new();
 my $Xml;
@@ -39,20 +39,20 @@ sub _valid_xml {
   my $xml = shift;
   return $Xml if defined($xml) and $xml eq $last_xml_string;
 
-  return $Test->diag("XML is not defined") unless defined $xml;
-  return $Test->diag("XML is missing")     unless $xml;
-  return $Test->diag("string can't contain XML: no tags") 
+  return fail("XML is not defined") unless defined $xml;
+  return fail("XML is missing")     unless $xml;
+  return fail("string can't contain XML: no tags") 
     unless ($xml =~ /</ and $xml =~/>/);
-  eval {$Xml = XML::XPath->new(xml=>$xml)};
-  $@ ? return $Test->diag($@)
+  eval {$Xml = XML::LibXML->new->parse_string($xml)};
+  $@ ? return fail($@)
      : return $Xml;
 }
 
 sub _find {
   my ($xml_xpath, $xpath) = @_;
-  my $nodeset = $xml_xpath->find($xpath);
-  return $Test->diag("Couldn't find $xpath") unless @$nodeset;
-  wantarray ? @$nodeset : $nodeset;
+  my @nodeset = $xml_xpath->findnodes($xpath);
+  return fail("Couldn't find $xpath") unless @nodeset;
+  wantarray ? @nodeset : \@nodeset;
 }
   
 
@@ -65,7 +65,7 @@ sub xml_node($$;$) {
   my $nodeset = _find($parsed_xml, $xpath);
   return 0 if !$nodeset;
 
-  ok(scalar $nodeset->get_nodelist, $comment);
+  ok(scalar @$nodeset, $comment);
 }
 
 sub xml_is($$$;$) {
@@ -77,7 +77,7 @@ sub xml_is($$$;$) {
   my $nodeset = _find($parsed_xml, $xpath);
   return 0 if !$nodeset;
 
-  foreach my $node ($nodeset->get_nodelist) {
+  foreach my $node (@$nodeset) {
     my @kids = $node->getChildNodes;
     if (@kids) {
       is($kids[0]->toString, $value, $comment);
@@ -96,9 +96,12 @@ sub xml_is_deeply($$$;$) {
   my $parsed_xml = _valid_xml($xml);
   return 0 unless $parsed_xml;
 
-  my $candidate_xp = XML::XPath->new(xml=>$candidate);
-  is($parsed_xml->findnodes_as_string($xpath), 
-     $candidate_xp->findnodes_as_string('/'),
+  my $candidate_xp;
+  eval {$candidate_xp = XML::LibXML->new->parse_string($candidate) };
+  return 0 unless $candidate_xp; 
+
+  is($parsed_xml->findnodes($xpath), 
+     $candidate_xp->findnodes('/'),
      $comment);
 }
 
@@ -111,7 +114,7 @@ sub xml_like($$$;$) {
   my $nodeset = _find($parsed_xml, $xpath);
   return 0 if !$nodeset;
 
-  foreach my $node ($nodeset->get_nodelist) {
+  foreach my $node (@$nodeset) {
     my @kids = $node->getChildNodes;
     if (@kids) {
       like($kids[0]->toString, $regex, $comment);

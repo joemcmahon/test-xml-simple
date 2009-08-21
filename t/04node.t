@@ -1,6 +1,6 @@
+use Test::Tester;
 use Test::More tests=>4;
 use Test::XML::Simple;
-use Test::Tester;
 
 my $xml = <<EOS;
 <CATALOG>
@@ -24,6 +24,7 @@ EOS
        ok=>1,
     }
  );
+ok($results[1]->{ok}, 'found node');
 
 @results = run_tests(
     sub {
@@ -40,6 +41,7 @@ ok(!$results[1]->{ok}, 'failed as expected');
        ok=>1,
     }
  );
+ok($results[1]->{ok}, 'found full path');
 
 @results = run_tests(
     sub {

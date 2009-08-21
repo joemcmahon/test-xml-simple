@@ -14,6 +14,7 @@ my @results = run_tests(
        ok=>1,
     }
  );
+ok($results[1]->{ok}, "nonempty");
 
 my $two_tag = <<EOS;
 <results total="0"></results>
@@ -28,6 +29,8 @@ EOS
     }
  );
 
+ok($results[1]->{ok}, "two-tag");
+
 my $collapsed = <<EOS;
 <results total="0"/>
 EOS
@@ -40,3 +43,4 @@ EOS
        ok=>1,
     }
  );
+ok($results[1]->{ok}, "collapsed");

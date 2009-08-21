@@ -28,6 +28,7 @@ my @results = run_tests(
        ok=>1,
     }
  );
+ok $results[1]->{ok}, "deep match";
 
 @results = run_tests(
     sub {
@@ -37,3 +38,4 @@ my @results = run_tests(
        ok=>1,
     }
  );
+ok $results[1]->{ok}, "identity match";
