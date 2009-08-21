@@ -1,10 +1,9 @@
 package Test::XML::Simple;
 
-use 5.006;
 use strict;
 use warnings;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 use Test::Builder;
 use Test::More;
@@ -79,8 +78,15 @@ sub xml_is($$$;$) {
   return 0 if !$nodeset;
 
   foreach my $node ($nodeset->get_nodelist) {
-    is($node->getChildNodes->[0]->toString,
-       $value, $comment);
+    my @kids = $node->getChildNodes;
+    if (@kids) {
+      is($kids[0]->toString, $value, $comment);
+    }
+    else {
+      my $got =  $node->toString;
+      $got =~ s/^.*="(.*)"/$1/;
+      is $got, $value, $comment;
+    }
   }
 }
 
@@ -106,8 +112,15 @@ sub xml_like($$$;$) {
   return 0 if !$nodeset;
 
   foreach my $node ($nodeset->get_nodelist) {
-    like($node->getChildNodes->[0]->toString,
-         $regex, $comment);
+    my @kids = $node->getChildNodes;
+    if (@kids) {
+      like($kids[0]->toString, $regex, $comment);
+    }
+    else {
+      my $got =  $node->toString;
+      $got =~ s/^.*="(.*)"/$1/;
+      like $got, $regex, $comment;
+    }
   }
 }
 

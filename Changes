@@ -1,6 +1,11 @@
 Revision history for Perl extension Test::XML::Simple.
 
-0.03  Thu Sep  8 17:36:52 PDT 2005
+0.04  Wed Sep 14 14:43:10 2005
+	- Fixed xml_is and xml_like to handle attributes better
+	  (//node[@attr] will now actually return the value of the
+	  attribute instead of dying)
+
+0.03  Thu Sep  8 17:36:52 2005
 	- Updated docs (included docs for xml_is_deeply)
 	- Added tests
 

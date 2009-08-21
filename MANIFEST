@@ -10,6 +10,7 @@ t/04node.t
 t/05is.t
 t/06like.t
 t/07deeply.t
+t/08attr.t
 t/pod-coverage.t
 t/pod.t
 META.yml                                 Module meta-data (added by MakeMaker)
