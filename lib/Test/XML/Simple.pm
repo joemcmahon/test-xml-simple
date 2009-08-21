@@ -3,7 +3,7 @@ package Test::XML::Simple;
 use strict;
 use warnings;
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 use Test::Builder;
 use Test::More;
@@ -160,7 +160,8 @@ sub _xml_like {
         }
       }
       if (! $found) {
-        ok(0, "no match in tag contents (including CDATA)");
+        $comment = "(no comment)" unless defined $comment;
+        ok(0, "$comment - no match in tag contents (including CDATA)");
       }
     }
     else {

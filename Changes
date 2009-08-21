@@ -1,5 +1,13 @@
 Revision history for Perl extension Test::XML::Simple.
 
+0.08  Tue Dec 20 16:04:14 PST 2005
+	- Make sure the backup error message for xml_like
+	  includes the user's supplied comment.
+
+0.07  Tue Dec 20 14:25:52 PST 2005
+	- change xml_like to search through all text and
+	  CDATA sections whe doing a match.
+
 0.06  Fri Dec  9 16:42:11 PST 2005
 	- Fixed some really egregious errors in the 
 	  XML comparisons. (Note to self: find *all*
