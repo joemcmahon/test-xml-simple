@@ -1,5 +1,12 @@
 Revision history for Perl extension Test::XML::Simple.
 
+0.03  Thu Sep  8 17:36:52 PDT 2005
+	- Updated docs (included docs for xml_is_deeply)
+	- Added tests
+
+0.02  Thu Apr 21 14:05:42 2005 
+	- added Test::Tester to the prereqs (oops).
+
 0.01  Tue Mar  1 08:18:07 2005
 	- original version; created by h2xs 1.21 with options
 		-AX -n Test::XML::Simple

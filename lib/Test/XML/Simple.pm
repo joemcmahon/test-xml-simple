@@ -4,7 +4,7 @@ use 5.006;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.03';
 
 use Test::Builder;
 use Test::More;
@@ -125,9 +125,9 @@ Test::XML::Simple - easy testing for XML
   xml_node $xml, "/xpath/expression", "specified xpath node is present";
   xml_is, $xml, '/xpath/expr', "expected value", "specified text present";
   xml_like, $xml, '/xpath/expr', qr/expected/, "regex text present";
+  xml_is_deeply, $xml, '/xpath/expr', $xml2, "structure and contents match";
 
   # Not yet implemented:
-  # xml_is_deeply, $xml, '/xpath/expr', $hash, "structure and contents match";
   # xml_like_deeply would be nice too...
 
 =head1 DESCRIPTION
@@ -135,6 +135,35 @@ Test::XML::Simple - easy testing for XML
 C<Test::XML::Simple> is a very basic class for testing XML. It uses the XPath
 syntax to locate nodes within the XML. You can also check all or part of the
 structure vs. an XML fragment.
+
+=head1 TEST ROUTINES
+
+=head2 xml_valid $xml, 'test description'
+
+Pass an XML file or fragment to this test; it succeeds if the XML (fragment)
+is valid.
+
+=head2 xml_node $xml, $xpath, 'test description'
+
+Checks the supplied XML to see if the node described by the supplied XPath
+expression is present. Test fails if it is not present.
+
+=head2 xml_is $xml, $xpath, $value, 'test description'
+
+Finds the node corresponding to the supplied XPath expression and
+compares it to the supplied value. Succeeds if the two values match.
+
+=head2 xml_like $xml, $xpath, $regex, 'test description'
+
+Find the XML corresponding to the the XPath expression and check it
+against the supplied regular expression. Succeeds if they match.
+
+=head2 xml_is_deeply $xml, $xpath, $xml2, 'test description'
+
+Find the piece of XML corresponding to the XPath expression,
+and compare its structure and contents to the second XML
+(fragment) supplied. Succeeds if they match in structure and
+content.
 
 =head1 AUTHOR
 

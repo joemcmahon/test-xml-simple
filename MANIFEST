@@ -1,8 +1,8 @@
 Changes
-MANIFEST
-Makefile.PL
-README
 lib/Test/XML/Simple.pm
+Makefile.PL
+MANIFEST
+README
 t/01load.t
 t/02import.t
 t/03valid.t
@@ -10,3 +10,6 @@ t/04node.t
 t/05is.t
 t/06like.t
 t/07deeply.t
+t/pod-coverage.t
+t/pod.t
+META.yml                                 Module meta-data (added by MakeMaker)

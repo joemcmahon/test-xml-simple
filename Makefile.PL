@@ -6,6 +6,7 @@ WriteMakefile(
     'VERSION_FROM'	=> 'lib/Test/XML/Simple.pm', # finds $VERSION
     'PREREQ_PM'		=> {
                              Test::Builder => 0,
+                             Test::Tester => 0,
                              Test::More => 0,
                              XML::XPath => 0,
                            }, # e.g., Module::Name => 1.1
