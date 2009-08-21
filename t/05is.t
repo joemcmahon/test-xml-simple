@@ -1,5 +1,5 @@
 use Test::Tester;
-use Test::More tests=>2;
+use Test::More tests=>6;
 use Test::XML::Simple;
 
 my $xml = <<EOS;
@@ -28,6 +28,16 @@ ok($results[1]->{ok}, 'found node');
 
 @results = run_tests(
     sub {
+          xml_is_long($xml, "//ARTIST", 'Sting', "good node")
+    },
+    {
+       ok=>1,
+    }
+ );
+ok($results[1]->{ok}, 'found node');
+
+@results = run_tests(
+    sub {
           xml_is($xml, "/CATALOG/CD/ARTIST", 'Sting', "full path")
     },
     {
@@ -36,7 +46,15 @@ ok($results[1]->{ok}, 'found node');
  );
 ok($results[1]->{ok}, 'found path');
 
-=begin skip_tests
+@results = run_tests(
+    sub {
+          xml_is_long($xml, "/CATALOG/CD/ARTIST", 'Sting', "full path")
+    },
+    {
+       ok=>1,
+    }
+ );
+ok($results[1]->{ok}, 'found path');
 
 @results = run_tests(
     sub {
@@ -46,6 +64,7 @@ ok($results[1]->{ok}, 'found path');
        ok=>0,
     }
  );
+ok(!$results[1]->{ok}, 'no node');
 
 @results = run_tests(
     sub {
@@ -55,5 +74,4 @@ ok($results[1]->{ok}, 'found path');
        ok=>0,
     }
  );
-
-=end skip_tests
+ok(!$results[1]->{ok}, 'no path');

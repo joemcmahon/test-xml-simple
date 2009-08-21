@@ -3,10 +3,11 @@ package Test::XML::Simple;
 use strict;
 use warnings;
 
-our $VERSION = '0.05';
+our $VERSION = '0.07';
 
 use Test::Builder;
 use Test::More;
+use Test::LongString;
 use XML::LibXML;
 
 my $Test = Test::Builder->new();
@@ -17,11 +18,14 @@ sub import {
    my $self = shift;
    my $caller = caller;
    no strict 'refs';
-   *{$caller.'::xml_valid'}      = \&xml_valid;
-   *{$caller.'::xml_node'}       = \&xml_node;
-   *{$caller.'::xml_is'}         = \&xml_is;
-   *{$caller.'::xml_is_deeply'}  = \&xml_is_deeply;
-   *{$caller.'::xml_like'}       = \&xml_like;
+   *{$caller.'::xml_valid'}          = \&xml_valid;
+   *{$caller.'::xml_node'}           = \&xml_node;
+   *{$caller.'::xml_is'}             = \&xml_is;
+   *{$caller.'::xml_is_long'}        = \&xml_is_long;
+   *{$caller.'::xml_is_deeply'}      = \&xml_is_deeply;
+   *{$caller.'::xml_is_deeply_long'} = \&xml_is_deeply_long;
+   *{$caller.'::xml_like'}           = \&xml_like;
+   *{$caller.'::xml_like_long'}      = \&xml_like_long;
 
    $Test->exported_to($caller);
    $Test->plan(@_);
@@ -68,8 +72,17 @@ sub xml_node($$;$) {
   ok(scalar @$nodeset, $comment);
 }
 
+
 sub xml_is($$$;$) {
-  my ($xml, $xpath, $value, $comment) = @_;
+  _xml_is(\&is_string, @_);
+}
+
+sub xml_is_long($$$;$) {
+  _xml_is(\&is, @_);
+}
+
+sub _xml_is {
+  my ($comp_sub, $xml, $xpath, $value, $comment) = @_;
 
   my $parsed_xml = _valid_xml($xml);
   return 0 unless $parsed_xml;
@@ -80,7 +93,7 @@ sub xml_is($$$;$) {
   foreach my $node (@$nodeset) {
     my @kids = $node->getChildNodes;
     if (@kids) {
-      is($kids[0]->toString, $value, $comment);
+      $comp_sub->($kids[0]->toString, $value, $comment);
     }
     else {
       my $got =  $node->toString;
@@ -91,7 +104,15 @@ sub xml_is($$$;$) {
 }
 
 sub xml_is_deeply($$$;$) {
-  my ($xml, $xpath, $candidate, $comment) = @_;
+  _xml_is_deeply(\&is_string, @_);
+}
+
+sub xml_is_deeply_long($$$;$) {
+  _xml_is_deeply(\&is, @_);
+}
+
+sub _xml_is_deeply {
+  my ($is_sub, $xml, $xpath, $candidate, $comment) = @_;
 
   my $parsed_xml = _valid_xml($xml);
   return 0 unless $parsed_xml;
@@ -100,13 +121,27 @@ sub xml_is_deeply($$$;$) {
   eval {$candidate_xp = XML::LibXML->new->parse_string($candidate) };
   return 0 unless $candidate_xp; 
 
-  is($parsed_xml->findnodes($xpath), 
-     $candidate_xp->findnodes('/'),
-     $comment);
+  my $parsed_thing    = $parsed_xml->findnodes($xpath)->[0];
+  my $candidate_thing = $candidate_xp->findnodes('/')->[0];
+
+  $candidate_thing = $candidate_thing->documentElement
+    if $parsed_thing->isa('XML::LibXML::Element');
+
+  $is_sub->($parsed_thing->toString, 
+            $candidate_thing->toString,
+            $comment);
 }
 
 sub xml_like($$$;$) {
-  my ($xml, $xpath, $regex, $comment) = @_;
+  _xml_like(\&like_string, @_);
+}
+
+sub xml_like_long($$$;$) {
+  _xml_like(\&like, @_);
+}
+
+sub _xml_like {
+  my ($like_sub, $xml, $xpath, $regex, $comment) = @_;
 
   my $parsed_xml = _valid_xml($xml);
   return 0 unless $parsed_xml;
@@ -116,13 +151,22 @@ sub xml_like($$$;$) {
 
   foreach my $node (@$nodeset) {
     my @kids = $node->getChildNodes;
+    my $found;
     if (@kids) {
-      like($kids[0]->toString, $regex, $comment);
+      foreach my $kid (@kids) {
+        if ($kid->toString =~ /$regex/) {
+          $found = 1;
+          $like_sub->($kid->toString, $regex, $comment);
+        }
+      }
+      if (! $found) {
+        ok(0, "no match in tag contents (including CDATA)");
+      }
     }
     else {
       my $got =  $node->toString;
       $got =~ s/^.*="(.*)"/$1/;
-      like $got, $regex, $comment;
+      $like_sub->(like $got, $regex, $comment);
     }
   }
 }
@@ -164,22 +208,43 @@ is valid.
 Checks the supplied XML to see if the node described by the supplied XPath
 expression is present. Test fails if it is not present.
 
+=head2 xml_is_long $xml, $xpath, $value, 'test description'
+
+Finds the node corresponding to the supplied XPath expression and
+compares it to the supplied value. Succeeds if the two values match.
+Uses Test::More's C<is> function to do the comparison.
+
 =head2 xml_is $xml, $xpath, $value, 'test description'
 
 Finds the node corresponding to the supplied XPath expression and
 compares it to the supplied value. Succeeds if the two values match.
+Uses Test::LongString's C<is_string> function to do the test.
+
+=head2 xml_like_long $xml, $xpath, $regex, 'test description'
+
+Find the XML corresponding to the the XPath expression and check it
+against the supplied regular expression. Succeeds if they match.
+Uses Test::More's C<like> function to do the comparison.
 
 =head2 xml_like $xml, $xpath, $regex, 'test description'
 
 Find the XML corresponding to the the XPath expression and check it
 against the supplied regular expression. Succeeds if they match.
+Uses Test::LongString's C<like_string> function to do the test.
+
+=head2 xml_is_deeply_long $xml, $xpath, $xml2, 'test description'
+
+Find the piece of XML corresponding to the XPath expression,
+and compare its structure and contents to the second XML
+(fragment) supplied. Succeeds if they match in structure and
+content. Uses Test::More's C<is> function to do the comparison.
 
 =head2 xml_is_deeply $xml, $xpath, $xml2, 'test description'
 
 Find the piece of XML corresponding to the XPath expression,
 and compare its structure and contents to the second XML
 (fragment) supplied. Succeeds if they match in structure and
-content.
+content. Uses Test::LongString's C<is_string> function to do the test.
 
 =head1 AUTHOR
 

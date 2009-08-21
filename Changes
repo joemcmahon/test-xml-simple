@@ -1,5 +1,15 @@
 Revision history for Perl extension Test::XML::Simple.
 
+0.06  Fri Dec  9 16:42:11 PST 2005
+	- Fixed some really egregious errors in the 
+	  XML comparisons. (Note to self: find *all*
+	  the interface differences next time!)
+	- added _long versions of the test functions.
+	  these use Test::More's comparisons. The 
+	  xml_is, xml_like, and xml_is_deeply
+	  functions all use Test::Longstring, for
+	  those who want the same tests, less filling.
+
 0.05  Mon Nov 28 14:41:58 2005
 	- Switched to XML::LibXML
 	- reordered Test::Tester to the top in all tests
