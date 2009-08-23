@@ -1,5 +1,10 @@
 Revision history for Perl extension Test::XML::Simple.
 
+0.10  Sun Aug 23 15:29:16 PDT 2009
+	- Added license
+        - Added Test::LongString prereq as per AKAPLAN
+        - Fixed META.yml to be a known-good format
+
 0.09  Tue Dec 20 17:20:44 PST 2005
 	- xml_like did not return a true value when it
 	  works properly.
