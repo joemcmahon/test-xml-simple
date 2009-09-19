@@ -13,4 +13,3 @@ t/07deeply.t
 t/08attr.t
 t/pod-coverage.t
 t/pod.t
-META.yml                                 Module meta-data (added by MakeMaker)

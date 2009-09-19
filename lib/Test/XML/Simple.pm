@@ -3,7 +3,7 @@ package Test::XML::Simple;
 use strict;
 use warnings;
 
-our $VERSION = '0.10';
+our $VERSION = '1.00';
 
 use Test::Builder;
 use Test::More;
@@ -42,19 +42,21 @@ sub xml_valid($;$) {
 sub _valid_xml {
   my $xml = shift;
   return $Xml if defined($xml) and $xml eq $last_xml_string;
-
+ 
+  local $Test::Builder::Level = $Test::Builder::Level + 2; 
   return fail("XML is not defined") unless defined $xml;
   return fail("XML is missing")     unless $xml;
   return fail("string can't contain XML: no tags") 
     unless ($xml =~ /</ and $xml =~/>/);
   eval {$Xml = XML::LibXML->new->parse_string($xml)};
-  $@ ? return fail($@)
+  $@ ? do { chomp $@; return fail($@) }
      : return $Xml;
 }
 
 sub _find {
   my ($xml_xpath, $xpath) = @_;
   my @nodeset = $xml_xpath->findnodes($xpath);
+  local $Test::Builder::Level = $Test::Builder::Level + 2; 
   return fail("Couldn't find $xpath") unless @nodeset;
   wantarray ? @nodeset : \@nodeset;
 }
@@ -84,6 +86,7 @@ sub xml_is_long($$$;$) {
 sub _xml_is {
   my ($comp_sub, $xml, $xpath, $value, $comment) = @_;
 
+  local $Test::Builder::Level = $Test::Builder::Level + 2; 
   my $parsed_xml = _valid_xml($xml);
   return 0 unless $parsed_xml;
 
@@ -161,12 +164,14 @@ sub _xml_like {
       }
       if (! $found) {
         $comment = "(no comment)" unless defined $comment;
-       return ok(0, "$comment - no match in tag contents (including CDATA)");
+	local $Test::Builder::Level = $Test::Builder::Level + 2;
+        return ok(0, "$comment - no match in tag contents (including CDATA)");
       }
     }
     else {
       my $got =  $node->toString;
       $got =~ s/^.*="(.*)"/$1/;
+      local $Test::Builder::Level = $Test::Builder::Level + 2;
       return $like_sub->(like $got, $regex, $comment);
     }
   }

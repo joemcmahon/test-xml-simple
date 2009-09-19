@@ -7,7 +7,7 @@ WriteMakefile(
     'LICENSE'           => 'artistic',
     'PREREQ_PM'		=> {
                              Test::Builder => 0,
-                             Test::Tester => 0,
+                             Test::Builder::Tester => 0,
                              Test::More => 0,
                              Test::LongString => 0,
                              XML::LibXML => 0,

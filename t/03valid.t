@@ -1,5 +1,5 @@
-use Test::Tester;
-use Test::More tests=>8;
+use Test::Builder::Tester tests=>4;
+use Test::More;
 use Test::XML::Simple;
 
 my $totally_invalid = <<EOS;
@@ -24,41 +24,21 @@ my $valid = <<EOS;
 </CATALOG>
 EOS
 
-@results = run_tests(
-    sub {
-          xml_valid(undef, "no xml")
-    }
-  );
-is($results[1]->{diag}, '', "skipped");
-ok(!$results[1]->{ok}, 'failed as expected');
+test_out("not ok 1 - XML is not defined");
+test_fail(+1);
+xml_valid(undef, "no xml");
+test_test('undef');
 
-@results = run_tests(
-    sub {
-          xml_valid($totally_invalid, "invalid xml")
-    }
-  );
-is($results[1]->{diag}, '', "skipped");
-ok(!$results[1]->{ok}, 'failed as expected');
+test_out("not ok 1 - string can't contain XML: no tags");
+test_fail(+1);
+xml_valid($totally_invalid, "invalid xml");
+test_test('non-XML string');
 
-@results = run_tests(
-    sub {
-          xml_valid($broken_xml, "invalid xml")
-    },
-    {
-       ok=>undef
-    }
-  );
-is($results[1]->{diag}, '', "skipped");
-ok(!$results[1]->{ok}, 'failed as expected');
+test_out("not ok 1 - :2: parser error : Premature end of data in tag imatag line 1");
+test_fail(+1);
+xml_valid($broken_xml, "invalid xml");
+test_test('bad XML');
 
-@results = run_tests(
-    sub {
-          xml_valid($valid, "good xml")
-    },
-    {
-       ok=>1,
-    }
-  );
-
-is($results[1]->{diag}, '', "ran");
-ok($results[1]->{ok}, 'succeeded as expected');
+test_out("ok 1 - good xml");
+xml_valid($valid, "good xml");
+test_test('good xml');

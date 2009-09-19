@@ -1,5 +1,4 @@
-use Test::Tester;
-use Test::More tests=>4;
+use Test::Builder::Tester tests=>4;
 use Test::XML::Simple;
 
 my $xml = <<EOS;
@@ -16,42 +15,22 @@ my $xml = <<EOS;
 </CATALOG>
 EOS
 
-@results = run_tests(
-    sub {
-          xml_like($xml, "//ARTIST", qr/st/i, "good node")
-    },
-    {
-       ok=>1,
-    }
- );
-ok($results[1]->{ok}, 'found node');
+test_out('ok 1 - good node');
+xml_like($xml, "//ARTIST", qr/st/i, "good node");
+test_test('node match');
 
-@results = run_tests(
-    sub {
-          xml_like($xml, "/CATALOG/CD/ARTIST", qr/ing/, "full path")
-    },
-    {
-       ok=>1,
-    }
- );
-ok($results[1]->{ok}, 'found path');
+test_out('ok 1 - full path');
+xml_like($xml, "/CATALOG/CD/ARTIST", qr/ing/, "full path");
+test_test('full path match');
 
-@results = run_tests(
-    sub {
-          xml_like($xml, "//ARTIST", qr/Weird Al/, "good node")
-    },
-    {
-       ok=>0,
-    }
- );
-ok(!$results[1]->{ok}, 'no node');
+test_out('not ok 1 - good node - no match in tag contents (including CDATA)');
+test_err(qq(#   Failed test 'good node - no match in tag contents (including CDATA)'
+#   at t/06like.t line 29.) );
+xml_like($xml, "//ARTIST", qr/Weird Al/, "good node");
+test_test('bad node match');
 
-@results = run_tests(
-    sub {
-          xml_like($xml, "/CATALOG/CD/ARTIST", qr/Weird Al/, "full path")
-    },
-    {
-       ok=>0,
-    }
- );
-ok(!$results[1]->{ok}, 'no path');
+test_out('not ok 1 - full path - no match in tag contents (including CDATA)');
+test_err(qq(#   Failed test 'full path - no match in tag contents (including CDATA)'
+#   at t/06like.t line 35.) );
+xml_like($xml, "/CATALOG/CD/ARTIST", qr/Weird Al/, "full path");
+test_test('bad full path match');

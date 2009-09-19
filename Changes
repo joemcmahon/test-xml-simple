@@ -1,5 +1,11 @@
 Revision history for Perl extension Test::XML::Simple.
 
+1.00  Sat Sep 19 02:52:31 PDT 2009
+	- Switched to Test::Builder::Tester for testing to get rid of
+	  problems with threaded Perls and Test::Builder::Capture.
+	- Fixed test levels for call so that test failures are reported
+          at the invocation of the test rather than down inside the module.
+
 0.10  Sun Aug 23 15:29:16 PDT 2009
 	- Added license
         - Added Test::LongString prereq as per AKAPLAN

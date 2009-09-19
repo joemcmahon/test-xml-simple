@@ -1,5 +1,4 @@
-use Test::Tester;
-use Test::More tests=>4;
+use Test::Builder::Tester tests => 4;
 use Test::XML::Simple;
 
 my $xml = <<EOS;
@@ -16,39 +15,20 @@ my $xml = <<EOS;
 </CATALOG>
 EOS
 
-@results = run_tests(
-    sub {
-          xml_node($xml, "//ARTIST", "good node")
-    },
-    {
-       ok=>1,
-    }
- );
-ok($results[1]->{ok}, 'found node');
+test_out('ok 1 - good node');
+xml_node($xml, "//ARTIST", "good node");
+test_test('xml_node, good node');
 
-@results = run_tests(
-    sub {
-          xml_node($xml, "/CATALOG/ARTIST", "bad path")
-    },
- );
-ok(!$results[1]->{ok}, 'failed as expected');
+test_out("not ok 1 - Couldn't find /CATALOG/ARTIST");
+test_fail(+1);
+xml_node($xml, "/CATALOG/ARTIST", "bad path");
+test_test('xml_node, bad path');
 
-@results = run_tests(
-    sub {
-          xml_node($xml, "/CATALOG/CD/ARTIST", "full path")
-    },
-    {
-       ok=>1,
-    }
- );
-ok($results[1]->{ok}, 'found full path');
+test_out('ok 1 - full path');
+xml_node($xml, "/CATALOG/CD/ARTIST", "full path");
+test_test('xml_node, full path');
 
-@results = run_tests(
-    sub {
-          xml_node($xml, "//FORMAT", "bad node")
-    },
-    {
-       ok=>0,
-    }
-  );
-ok(!$results[1]->{ok}, 'failed as expected');
+test_out("not ok 1 - Couldn't find //FORMAT");
+test_fail(+1);
+xml_node($xml, "//FORMAT", "bad node");
+test_test('xml_node, bad node');
