@@ -3,7 +3,7 @@ package Test::XML::Simple;
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 use Test::Builder;
 use Test::More;
@@ -256,9 +256,9 @@ content. Uses Test::LongString's C<is_string> function to do the test.
 
 Joe McMahon, E<lt>mcmahon@cpan.orgE<gt>
 
-=head1 LEGAL
+=head1 LICENSE
 
-Copyright (c) 2005 by Yahoo!
+Copyright (c) 2005 by Yahoo! and Joe McMahon
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself, either Perl version 5.6.1 or, at
