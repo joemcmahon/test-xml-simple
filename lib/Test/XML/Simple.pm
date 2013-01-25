@@ -10,10 +10,9 @@ use Test::More;
 use Test::LongString;
 use XML::LibXML;
 
-our $XML_DOC;
-
+our ( $XML_DOC, $XML_DOC_REUSE );
 my $Test = Test::Builder->new();
-my $last_xml_string = "";
+my $last_xml_string = '';
 
 sub import {
    my $self = shift;
@@ -42,7 +41,7 @@ sub xml_valid($;$) {
 
 sub _valid_xml {
   my $xml = shift;
-  return $XML_DOC if defined($xml) and $xml eq $last_xml_string;
+  return $XML_DOC if defined($xml) and $XML_DOC_REUSE and $xml eq $last_xml_string;
  
   local $Test::Builder::Level = $Test::Builder::Level + 2; 
   return fail("XML is not defined") unless defined $xml;
@@ -54,6 +53,7 @@ sub _valid_xml {
       chomp $@;
       return fail($@);
   }
+  $last_xml_string = $xml if $XML_DOC_REUSE;
   return $XML_DOC;
 }
 
@@ -261,6 +261,11 @@ content. Uses Test::LongString's C<is_string> function to do the test.
 =head2 $Test::XML::Simple::XML_DOC
 
 Contain a 'XML::LibXML::Document' object which was used in previous test.
+
+=head2 $Test::XML::Simple::XML_DOC_REUSE
+
+Set to true if you want that module try to reuse 'XML::LibXML::Document' object from previous test, by comparing XML string.
+Default: false.
 
 =head1 AUTHOR
 
