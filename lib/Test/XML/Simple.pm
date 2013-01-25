@@ -46,11 +46,17 @@ sub _valid_xml {
   local $Test::Builder::Level = $Test::Builder::Level + 2; 
   return fail("XML is not defined") unless defined $xml;
   return fail("XML is missing")     unless $xml;
-  return fail("string can't contain XML: no tags") 
-    unless ($xml =~ /</ and $xml =~/>/);
-  eval {$Xml = XML::LibXML->new->parse_string($xml)};
-  $@ ? do { chomp $@; return fail($@) }
-     : return $Xml;
+  if ( ref $xml ) {
+      return fail("accept only 'XML::LibXML::Document' as object") unless ref $xml eq 'XML::LibXML::Document';
+      $Xml = $xml;
+  }
+  else {
+    return fail("string can't contain XML: no tags") 
+      unless ($xml =~ /</ and $xml =~/>/);
+    eval { $Xml = XML::LibXML->new->parse_string($xml); };
+    do { chomp $@; return fail($@) } if $@;
+  }
+  return $Xml;
 }
 
 sub _find {
@@ -187,11 +193,19 @@ Test::XML::Simple - easy testing for XML
 =head1 SYNOPSIS
 
   use Test::XML::Simple tests=>5;
+
   xml_valid $xml, "Is valid XML";
+  xml_valid $xml_doc_obj, "Is valid XML";
   xml_node $xml, "/xpath/expression", "specified xpath node is present";
   xml_is, $xml, '/xpath/expr', "expected value", "specified text present";
   xml_like, $xml, '/xpath/expr', qr/expected/, "regex text present";
   xml_is_deeply, $xml, '/xpath/expr', $xml2, "structure and contents match";
+
+  # XML::LibXML::Document can be passed as argument too
+  #  that allow you to test a big documents with several tests
+  my $xml_doc = XML::LibXML->createDocument( '1.0' );
+  xml_node $xml_doc, '/xpath/expression', 'specified xpath node is present';
+  xml_like, $xml_doc, '/xpath/expression', qr/expected result/, 'regex present';
 
   # Not yet implemented:
   # xml_like_deeply would be nice too...
@@ -201,6 +215,7 @@ Test::XML::Simple - easy testing for XML
 C<Test::XML::Simple> is a very basic class for testing XML. It uses the XPath
 syntax to locate nodes within the XML. You can also check all or part of the
 structure vs. an XML fragment.
+All routines accept as first argument string with XML or XML::LibXML::Document object.
 
 =head1 TEST ROUTINES
 
