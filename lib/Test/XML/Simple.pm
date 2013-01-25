@@ -12,7 +12,6 @@ use XML::LibXML;
 
 my $Test = Test::Builder->new();
 my $Xml;
-my $last_xml_string = "";
 
 sub import {
    my $self = shift;
@@ -41,7 +40,6 @@ sub xml_valid($;$) {
 
 sub _valid_xml {
   my $xml = shift;
-  return $Xml if defined($xml) and $xml eq $last_xml_string;
  
   local $Test::Builder::Level = $Test::Builder::Level + 2; 
   return fail("XML is not defined") unless defined $xml;
