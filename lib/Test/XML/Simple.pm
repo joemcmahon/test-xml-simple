@@ -272,7 +272,7 @@ Joe McMahon, E<lt>mcmahon@cpan.orgE<gt>
 
 =head1 LICENSE
 
-Copyright (c) 2005 by Yahoo! and Joe McMahon
+Copyright (c) 2005-2013 by Yahoo! and Joe McMahon
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself, either Perl version 5.6.1 or, at
