@@ -1,4 +1,7 @@
 Revision history for Perl extension Test::XML::Simple.
+1.03  Sat Jan 26 13:37:11 PST 2013
+    - Update README
+
 1.02  Fri Jan 25 18:09:24 PST 2013
     - Added ability to pass in a XML::LibXML::Document object
     - clean up unused variable
