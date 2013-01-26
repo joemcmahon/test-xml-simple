@@ -1,4 +1,8 @@
 Revision history for Perl extension Test::XML::Simple.
+1.02  Fri Jan 25 18:09:24 PST 2013
+    - Added ability to pass in a XML::LibXML::Document object
+    - clean up unused variable
+      Thanks to bor@GitHub (Sergiy Borodych) for the fixes!
 1.01  Tue Jun  5 12:44:22 PDT 2012
     - Changed LEGAL section to LICENSE so CPANTS sees it.
     - Change XML::LibXML min version to 1.99 so tests are consistent.
