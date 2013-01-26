@@ -1,11 +1,11 @@
-Test::XML::Simple version 1.00
+Test::XML::Simple
 ============================
 
-Test::SML::Simple provides a test class which makes it easy to do basic
-Test::Builder-style tests on XML input.
+This module provides a test class which makes it easy to do basic
+Test::More style tests on XML input.
 
-  use Test::XML::Simple test=>4;
-  is_valid $xml, "Is valid XML";
+  use Test::XML::Simple test => 5;
+  xml_valid $xml, 'Is valid XML';
   xml_node $xml, "/xpath/expression", "specified xpath node is present";
   xml_text_is $xml, '/xpath/expr', "expected value", "specified text present";
   xml_text_like $xml, '/xpath/expr', qr/expected/, "regex text present";
@@ -25,12 +25,13 @@ DEPENDENCIES
 This module requires these other modules and libraries:
 
   Test::Builder
+  Test::LongString
   Test::More
-  XML::XPath
+  XML::LibXML
 
 COPYRIGHT AND LICENCE
 
-Copyright (C) 2005 by Yahoo!
+Copyright (C) 2005 by Yahoo! and Joe McMahon
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.6.1 or,
