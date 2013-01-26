@@ -1,4 +1,4 @@
-use Test::Builder::Tester tests=>4;
+use Test::Builder::Tester tests=>6;
 use Test::More;
 use Test::XML::Simple;
 use XML::LibXML;
