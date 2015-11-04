@@ -1,5 +1,5 @@
 use Test::Builder::Tester;
-use Test::More tests=>6;
+use Test::More tests => 7;
 use Test::XML::Simple;
 
 my $xml = <<EOS;
@@ -17,8 +17,9 @@ my $xml = <<EOS;
 EOS
 
 test_out("ok 1 - good node");
-xml_is($xml, "//ARTIST", 'Sting', "good node");
+my $ok = xml_is( $xml, "//ARTIST", 'Sting', "good node" );
 test_test("node match");
+ok( $ok, 'xml_is() return true for "node match"' );
 
 test_out('ok 1 - good node');
 xml_is_long($xml, "//ARTIST", 'Sting', "good node");
