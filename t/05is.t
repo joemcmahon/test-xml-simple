@@ -33,8 +33,9 @@ xml_is_long($xml, "/CATALOG/CD/ARTIST", 'Sting', "full path");
 test_test("long node match");
 
 test_out('not ok 1 - good node');
+my $line = line_num(+8);
 test_err(qq<#   Failed test 'good node'
-#   at t/05is.t line 43.
+#   at $0 line $line.
 #          got: "Sting"
 #       length: 5
 #     expected: "Weird Al"
@@ -44,8 +45,9 @@ xml_is($xml, "//ARTIST", 'Weird Al', "good node");
 test_test("node miss");
 
 test_out('not ok 1 - full path');
+$line = line_num(+8);
 test_err(qq<#   Failed test 'full path'
-#   at t/05is.t line 54.
+#   at $0 line $line.
 #          got: "Sting"
 #       length: 5
 #     expected: "Weird Al"
