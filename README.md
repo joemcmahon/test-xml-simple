@@ -1,5 +1,6 @@
-Test::XML::Simple
-============================
+#Test::XML::Simple
+
+[![Build Status](https://travis-ci.org/joemcmahon/test-xml-simple.svg?branch=master)](https://travis-ci.org/joemcmahon/test-xml-simple)
 
 This module provides a test class which makes it easy to do basic
 Test::More style tests on XML input.
@@ -11,7 +12,7 @@ Test::More style tests on XML input.
   xml_text_like $xml, '/xpath/expr', qr/expected/, "regex text present";
   xml_is_deeply $xml, '/xpath/expr', $xml_fragment, "fragment matches path";
 
-INSTALLATION
+##INSTALLATION
 
 To install this module type the following:
 
@@ -20,7 +21,7 @@ To install this module type the following:
    make test
    make install
 
-DEPENDENCIES
+##DEPENDENCIES
 
 This module requires these other modules and libraries:
 
@@ -29,10 +30,12 @@ This module requires these other modules and libraries:
   Test::More
   XML::LibXML
 
-COPYRIGHT AND LICENCE
+You should be able to use this module with any Perl from version 5.8 to 5.20.
 
-Copyright (C) 2005-2013 by Yahoo! and Joe McMahon
+##COPYRIGHT AND LICENCE
+
+Copyright (C) 2005-2016 by Yahoo! and Joe McMahon
 
 This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.6.1 or,
+it under the same terms as Perl itself, either Perl version 5.8 or,
 at your option, any later version of Perl 5 you may have available.
