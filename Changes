@@ -1,4 +1,12 @@
 Revision history for Perl extension Test::XML::Simple.
+1.04  Mon Jan 18,13:23:21 PST 2016
+    - More fixes from Sergiy Borodych:
+    -- Add "use strict" and "use warnings"
+    -- Set minimum Perl version set to 5.8
+    -- Add .travis.yml file
+    -- is_xml now properly returns true or false
+    -- Minor test fixes
+
 1.03  Sat Jan 26 13:37:11 PST 2013
     - Update README
 
@@ -6,6 +14,7 @@ Revision history for Perl extension Test::XML::Simple.
     - Added ability to pass in a XML::LibXML::Document object
     - clean up unused variable
       Thanks to bor@GitHub (Sergiy Borodych) for the fixes!
+
 1.01  Tue Jun  5 12:44:22 PDT 2012
     - Changed LEGAL section to LICENSE so CPANTS sees it.
     - Change XML::LibXML min version to 1.99 so tests are consistent.
