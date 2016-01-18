@@ -80,7 +80,7 @@ sub xml_node($$;$) {
 
 
 sub xml_is($$$;$) {
-  _xml_is(\&is_string, @_);
+  return _xml_is( \&is_string, @_ );
 }
 
 sub xml_is_long($$$;$) {
@@ -97,17 +97,24 @@ sub _xml_is {
   my $nodeset = _find($parsed_xml, $xpath);
   return 0 if !$nodeset;
 
+  my $ok = 1;
   foreach my $node (@$nodeset) {
     my @kids = $node->getChildNodes;
+    my $node_ok;
     if (@kids) {
-      $comp_sub->($kids[0]->toString, $value, $comment);
+      $node_ok = $comp_sub->( $kids[0]->toString, $value, $comment );
     }
     else {
-      my $got =  $node->toString;
+      my $got = $node->toString;
       $got =~ s/^.*="(.*)"/$1/;
-      is $got, $value, $comment;
+      $node_ok = is $got, $value, $comment;
     }
+
+    # returns NOT OK if even one of tests fails
+    $ok = 0 unless $node_ok;
   }
+
+  return $ok;
 }
 
 sub xml_is_deeply($$$;$) {

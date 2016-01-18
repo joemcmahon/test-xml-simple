@@ -1,5 +1,5 @@
 use Test::Builder::Tester;
-use Test::More tests=>6;
+use Test::More tests => 7;
 use Test::XML::Simple;
 
 my $xml = <<EOS;
@@ -17,8 +17,9 @@ my $xml = <<EOS;
 EOS
 
 test_out("ok 1 - good node");
-xml_is($xml, "//ARTIST", 'Sting', "good node");
+my $ok = xml_is( $xml, "//ARTIST", 'Sting', "good node" );
 test_test("node match");
+ok( $ok, 'xml_is() return true for "node match"' );
 
 test_out('ok 1 - good node');
 xml_is_long($xml, "//ARTIST", 'Sting', "good node");
@@ -33,8 +34,9 @@ xml_is_long($xml, "/CATALOG/CD/ARTIST", 'Sting', "full path");
 test_test("long node match");
 
 test_out('not ok 1 - good node');
+my $line = line_num(+8);
 test_err(qq<#   Failed test 'good node'
-#   at t/05is.t line 43.
+#   at $0 line $line.
 #          got: "Sting"
 #       length: 5
 #     expected: "Weird Al"
@@ -44,8 +46,9 @@ xml_is($xml, "//ARTIST", 'Weird Al', "good node");
 test_test("node miss");
 
 test_out('not ok 1 - full path');
+$line = line_num(+8);
 test_err(qq<#   Failed test 'full path'
-#   at t/05is.t line 54.
+#   at $0 line $line.
 #          got: "Sting"
 #       length: 5
 #     expected: "Weird Al"
