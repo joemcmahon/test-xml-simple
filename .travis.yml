@@ -7,3 +7,6 @@ perl:
   - "5.16"
   - "5.18"
   - "5.20"
+after_success:
+    - cpanm --quiet --notest --skip-satisfied Devel::Cover::Report::Coveralls
+    - cover -test -report coveralls  
