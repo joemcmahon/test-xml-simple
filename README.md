@@ -32,7 +32,7 @@ This module requires these other modules and libraries:
   Test::More
   XML::LibXML
 
-You should be able to use this module with any Perl from version 5.8 to 5.20.
+You should be able to use this module with any Perl from version 5.8 and above.
 
 ##COPYRIGHT AND LICENCE
 
