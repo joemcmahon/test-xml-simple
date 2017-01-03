@@ -1,4 +1,11 @@
 Revision history for Perl extension Test::XML::Simple.
+1.05 Tue Jan 3, 11:13:05 PST 2017
+    - Yet more fixes from Sergiy Borodych (thanks for your patience!):
+    -- Mark code in README with triple backticks
+    -- Update Perl version list in travis.yml
+    -- Change supported version comment to '5.8 and above'.
+    -- Fix double call of `like` when no child nodes are found at an xpath
+
 1.04  Mon Jan 18,13:23:21 PST 2016
     - More fixes from Sergiy Borodych:
     -- Add "use strict" and "use warnings"
