@@ -6,12 +6,14 @@
 This module provides a test class which makes it easy to do basic
 Test::More style tests on XML input.
 
+```perl
   use Test::XML::Simple test => 5;
   xml_valid $xml, 'Is valid XML';
   xml_node $xml, "/xpath/expression", "specified xpath node is present";
   xml_text_is $xml, '/xpath/expr', "expected value", "specified text present";
   xml_text_like $xml, '/xpath/expr', qr/expected/, "regex text present";
   xml_is_deeply $xml, '/xpath/expr', $xml_fragment, "fragment matches path";
+```
 
 ##INSTALLATION
 
@@ -31,7 +33,7 @@ This module requires these other modules and libraries:
   Test::More
   XML::LibXML
 
-You should be able to use this module with any Perl from version 5.8 to 5.20.
+You should be able to use this module with any Perl from version 5.8 and above.
 
 ##COPYRIGHT AND LICENCE
 

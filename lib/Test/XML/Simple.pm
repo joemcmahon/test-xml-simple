@@ -183,7 +183,7 @@ sub _xml_like {
       my $got =  $node->toString;
       $got =~ s/^.*="(.*)"/$1/;
       local $Test::Builder::Level = $Test::Builder::Level + 2;
-      return $like_sub->(like $got, $regex, $comment);
+      return $like_sub->( $got, $regex, $comment );
     }
   }
 }
