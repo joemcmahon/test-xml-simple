@@ -2,7 +2,7 @@ Changes
 lib/Test/XML/Simple.pm
 Makefile.PL
 MANIFEST
-README
+README.md
 t/01load.t
 t/02import.t
 t/03valid.t
