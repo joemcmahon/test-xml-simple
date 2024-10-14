@@ -1,8 +1,9 @@
+Build.PL
 Changes
-lib/Test/XML/Simple.pm
-Makefile.PL
 MANIFEST
+Makefile.PL
 README.md
+lib/Test/XML/Simple.pm
 t/01load.t
 t/02import.t
 t/03valid.t

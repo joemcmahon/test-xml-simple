@@ -1,0 +1,41 @@
+{
+   "abstract" : "easy testing for XML",
+   "author" : [
+      "Joe McMahon, E<lt>mcmahon@cpan.orgE<gt>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.4234",
+   "license" : [
+      "artistic_1"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Test-XML-Simple",
+   "prereqs" : {
+      "runtime" : {
+         "requires" : {
+            "Test::Builder" : "0",
+            "Test::Builder::Tester" : "0",
+            "Test::LongString" : "0",
+            "Test::More" : "0",
+            "XML::LibXML" : "1.99"
+         }
+      }
+   },
+   "provides" : {
+      "Test::XML::Simple" : {
+         "file" : "lib/Test/XML/Simple.pm",
+         "version" : "1.05"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://www.perlfoundation.org/artistic_license_1_0"
+      ]
+   },
+   "version" : "1.05",
+   "x_serialization_backend" : "JSON::PP version 4.16"
+}
