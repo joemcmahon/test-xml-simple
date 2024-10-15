@@ -3,7 +3,9 @@ abstract: 'easy testing for XML'
 author:
   - 'Joe McMahon, E<lt>mcmahon@cpan.orgE<gt>'
 build_requires: {}
-dynamic_config: 0
+configure_requires:
+  Module::Build: '0.42'
+dynamic_config: 1
 generated_by: 'Module::Build version 0.4234, CPAN::Meta::Converter version 2.150010'
 license: artistic
 meta-spec:
@@ -13,7 +15,7 @@ name: Test-XML-Simple
 provides:
   Test::XML::Simple:
     file: lib/Test/XML/Simple.pm
-    version: '1.05'
+    version: '1.06'
 requires:
   Test::Builder: '0'
   Test::Builder::Tester: '0'
@@ -22,5 +24,5 @@ requires:
   XML::LibXML: '1.99'
 resources:
   license: http://www.perlfoundation.org/artistic_license_1_0
-version: '1.05'
+version: '1.06'
 x_serialization_backend: 'CPAN::Meta::YAML version 0.018'

@@ -3,7 +3,7 @@
    "author" : [
       "Joe McMahon, E<lt>mcmahon@cpan.orgE<gt>"
    ],
-   "dynamic_config" : 0,
+   "dynamic_config" : 1,
    "generated_by" : "Module::Build version 0.4234",
    "license" : [
       "artistic_1"
@@ -14,6 +14,11 @@
    },
    "name" : "Test-XML-Simple",
    "prereqs" : {
+      "configure" : {
+         "requires" : {
+            "Module::Build" : "0.42"
+         }
+      },
       "runtime" : {
          "requires" : {
             "Test::Builder" : "0",
@@ -27,7 +32,7 @@
    "provides" : {
       "Test::XML::Simple" : {
          "file" : "lib/Test/XML/Simple.pm",
-         "version" : "1.05"
+         "version" : "1.06"
       }
    },
    "release_status" : "stable",
@@ -36,6 +41,6 @@
          "http://www.perlfoundation.org/artistic_license_1_0"
       ]
    },
-   "version" : "1.05",
+   "version" : "1.06",
    "x_serialization_backend" : "JSON::PP version 4.16"
 }

@@ -12,5 +12,10 @@ t/05is.t
 t/06like.t
 t/07deeply.t
 t/08attr.t
+t/09is_for_multi_nodes.t
+t/10invalid.t
 t/pod-coverage.t
 t/pod.t
+README
+META.yml
+META.json
